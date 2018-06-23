@@ -1,0 +1,36 @@
+function theta_es = ESPRIT(x,p,d)
+[m,sample_num ]= size(x);
+Rxx = 1 / sample_num *( x(1:m-1,:) * x(1:m-1,:)');
+y = x(2:m,:);
+Rxy = 1 / sample_num * (x(1:m-1,:) * y');
+[U D] = eig(Rxx);
+%ESPRIT
+%         min_lambda = min(diag(D));
+%         Cxx = Rxx - min_lambda * eye(m-1);
+%         Cxy = Rxy - min_lambda * (tril(ones(m-1,m-1),-1)-tril(ones(m-1,m-1),-2));
+%         [U,D] = eig(Cxx,Cxy);
+%         gama = diag(D);
+%         dis = abs(sqrt(real(gama) .^ 2 + imag(gama) .^ 2)-1) ;
+%         [~,I]=sort(dis);
+%         omega_es = gama(I(1:p));
+%         temp = (atan(imag(omega_es)./real(omega_es))); 
+%         loc = find(real(omega_es)<0);
+%         temp(loc) = temp(loc) + pi * sign(imag(omega_es(loc)));
+%         omega_es = temp;   
+%         theta_es = asin(omega_es / (2 * d * pi)) / pi * 180;
+%         theta_es = sort(theta_es');
+%¸Ä½øµÄESPRIT
+[~,sortd] = sort(diag(D));
+U = U(:,sortd);
+Us = U(:,m-3:m-1);
+U1 = Us(1:m-2,:);
+U2 = Us(2:m-1,:);
+T = pinv(U1) * U2;
+[v,phi] = eig(T);
+omega_es = diag(phi);
+temp = (atan(imag(omega_es)./real(omega_es))); 
+loc = find(real(omega_es)<0);
+temp(loc) = temp(loc) + pi * sign(imag(omega_es(loc)));
+omega_es = temp;   
+theta_es = asin(omega_es / (2 * d * pi)) / pi * 180;
+theta_es = sort(theta_es');
