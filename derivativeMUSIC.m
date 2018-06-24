@@ -3,7 +3,11 @@ if nargin == 2
     plotFlag = 0;
 end
 % 求解噪声子空间
-method = 'autocorrelation';
+method = 'modified'; % 注意相关函数的估计方法的选取对结果有很大的影响；
+% method = 'autocorrelation';
+% method = 'covariance';
+% method = 'postwindowed';
+% method = 'prewindowed';
 m = numel(data);
 [~,R] = corrmtx(data,m-1,method); % 估计相关函数矩阵
 % R = data * data';
