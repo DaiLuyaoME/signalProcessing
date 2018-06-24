@@ -7,17 +7,13 @@ d_lamb = 0.5;
 theta = deg2rad( [-30,0,30] );
 omega = 2 * pi * d_lamb * sin(theta);
 
-%% generate noise
-noisePower = 0.12;
-u1 = sqrt(noisePower) * randn(m,1);
-u2 = sqrt(noisePower) * randn(m,1);
-noise = u1 + 1j * u2;
 %% generate signal
+SNR = 10;
 [x,noise] = dataGenerator(p,m,d_lamb,theta,SNR);
 
 %%
 [pxx,w] = classicMUSIC(x,p,1024);
-figure;plotSpectral(w/pi,10*log10(pxx));
+plotSpectral(w/pi,10*log10(pxx));
 figure;pmusic(x,p,1024);
 
 % rootmusic
