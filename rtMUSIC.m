@@ -1,4 +1,8 @@
-function result = rtMUSIC(data,p)
+function result = rtMUSIC(data,p,plotFlag)
+if nargin == 2
+    plotFlag = 0;
+end
+
 % 求解噪声子空间
 method = 'autocorrelation';
 m = numel(data);
@@ -19,16 +23,19 @@ for i = 1:n
     coef = coef + conv(u,v);
 end
 r = roots(coef);
-figure;plot(r,'Marker','o','LineWidth',2,'LineStyle','none');hold on;
-plot(exp( 1j * linspace(0,2*pi,100)),'LineWidth',2);
-ylabel('Im');xlabel('Re');grid on;title('Root MUSIC');set(gca,'FontSize',14);
-axis equal;
+if plotFlag == 1
+    figure;plot(r,'Marker','o','LineWidth',2,'LineStyle','none');hold on;
+    plot(exp( 1j * linspace(0,2*pi,100)),'LineWidth',2);
+    ylabel('Im');xlabel('Re');grid on;title('Root MUSIC');set(gca,'FontSize',14);
+    axis equal;
+end
 
 [~,index] = sort(abs(abs(r)-1));
 temp = r(index(1:2*p));
 result = temp(abs(temp)<1);
-    
-
+if (numel(result) ~= p)
+    result = result(1:p);
+end
 
 
 end
