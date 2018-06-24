@@ -28,10 +28,10 @@ numel(result);
 % ylabel('Im');xlabel('Re');grid on;title('Root MUSIC');set(gca,'FontSize',14);
 % axis equal;
 %%
-result = derivativeMUSIC(x,p);
+result = derivativeMUSIC(x,p,1);
 %%
 % 与matlab自带的rootmusicdoa,rootmusic,esprit;
-
+result = classicMUSICDOA(x,p);
 
 
 

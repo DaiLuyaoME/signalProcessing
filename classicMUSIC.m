@@ -1,5 +1,7 @@
 function [pxx,w] = classicMUSIC(data,p,nFFT)
-
+if nargin == 2
+    nFFT = 256;
+end
 % method = 'modified'; % 注意相关函数的估计方法的选取对结果有很大的影响；
 method = 'autocorrelation';
 m = numel(data);
