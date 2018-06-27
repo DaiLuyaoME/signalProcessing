@@ -3,7 +3,7 @@ close all;
 %%
 p = 3;
 m = 20;
-d_lamb = 1;
+d_lamb = 0.5;
 theta = deg2rad( [-30,0,30]' );
 omega = 2 * pi * d_lamb * sin(theta);
 
@@ -34,9 +34,10 @@ result = derivativeMUSIC(x,p,1);
 result = classicMUSICDOA(x,p);
 
 %%
-method = 'autocorrelation';
-% method = 'modified';
-m = numel(x);
-[~,R] = corrmtx(x,m-1,method); % 估计相关函数矩阵
-result = espritdoa(R,p)';
-
+% method = 'autocorrelation';
+% % method = 'modified';
+% m = numel(x);
+% [~,R] = corrmtx(x,m-1,method); % 估计相关函数矩阵
+% result = espritdoa(R,p)';
+%%
+result = ESPRIT(x,p,1);

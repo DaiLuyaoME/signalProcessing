@@ -1,4 +1,7 @@
-function result = ESPRIT(data,p)
+function result = ESPRIT(data,p,plotFlag)
+if nargin == 2
+    plotFlag = 0;
+end
 % 求解噪声子空间
 method = 'autocorrelation';
 m = numel(data);
@@ -12,4 +15,10 @@ U2 = Us(2:m-1,:);
 T = pinv(U1) * U2;
 [~,phi] = eig(T);
 result = diag(phi);
-result = angle(result);   
+if plotFlag == 1
+    figure;plot(result,'Marker','o','LineWidth',2,'LineStyle','none');hold on;
+    plot(exp( 1j * linspace(0,2*pi,100)),'LineWidth',2);
+    ylabel('Im');xlabel('Re');grid on;title('ESPRIT');set(gca,'FontSize',14);
+    axis equal;
+end
+result = angle(result);
