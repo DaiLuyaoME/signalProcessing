@@ -1,8 +1,8 @@
-dataSetName = 'dataSet1/';
+dataSetName = 'dataSet2/';
 nameList = dir(['./data/',dataSetName,'*.csv']);
 pathName = [nameList(1).folder,'/'];
 % fileName = nameList.name;
-powerDataIndex = 2;
+powerDataIndex = 1;
 rowOffset = 2;
 colOffset = 1;
 mode = 2; % 1 for matrix; 2 for cell
