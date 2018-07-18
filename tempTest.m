@@ -30,7 +30,7 @@ tempData = filteredPowerDataZeroPhaseError;
 % tempData = filteredPowerData;
 startPoint = 300;
 windowSize = 30;
-methodType = 'mean';
+methodType = 'msd';
 
 result = calCharacter(tempData,windowSize,startPoint,methodType);
 % figure;plot([powerData,result]);
