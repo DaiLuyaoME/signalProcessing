@@ -1,8 +1,9 @@
 %%
 close all;
+clear;
 %% load data
-% data = csvread('./data/dataSet1/Raw_6.csv',2,1);
-data = csvread('./data/dataSet2/E8L030#13.csv',2,1);
+% data = csvread('./data/dataSet1/Raw_5.csv',2,1);
+data = csvread('./data/dataSet2/E8L029#04.csv',2,1);
 %%
 fs = 49;
 Ts = 1/fs;
@@ -75,19 +76,16 @@ filteredPowerData = filter(dataFilter,powerData);
 figure;plot([powerData,filteredPowerData]);
 %%
 filteredPowerDataZeroPhaseError = filtfilt(dataFilter,powerData);
-figure;plot([powerData,filteredPowerData,filteredPowerDataZeroPhaseError],'LineWidth',2);
+figure;plot([powerData,filteredPowerData,filteredPowerDataZeroPhaseError],'LineWidth',4);
 h = legend('原始数据','低通滤波','零相位误差低通滤波');set(gca,'FontSize',14);
 h.Location = 'best';
 xlabel('采样点');ylabel('电机功率');set(gca,'FontSize',14);axis tight;
+% [tempx,tempy] = ginput(2);
 %%
 figure; pwelch(filteredPowerDataZeroPhaseError - mean(filteredPowerDataZeroPhaseError));title('零相位滤波后功率谱估计Welch方法')
 figure; pwelch(filteredPowerData - mean(filteredPowerData));title('滤波后功率谱估计Welch方法');
 % figure; periodogram(filteredPowerDataZeroPhaseError - mean(filteredPowerDataZeroPhaseError));title('滤波后功率谱估计周期图方法');
 % figure;[pxx,f] = periodogram(filteredPowerDataZeroPhaseError,[],[],fs);title('滤波后功率谱估计周期图方法');
-%%
-figure;
-cumPower = cumsum((pxx));
-h = semilogx(f,cumPower);
 %%
 figure;plot(diff(filteredPowerDataZeroPhaseError));
 figure;plot(diff(diff(filteredPowerDataZeroPhaseError)));

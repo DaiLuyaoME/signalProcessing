@@ -12,7 +12,7 @@ axis tight;
 fs = 49;
 Ts = 1/fs;
 %%
-dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .005, 'PassbandRipple', 0.01);
+dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
 [b,a] = secOrderFilter(0.003 / 2 * fs, fs);
 %% ÂË²¨
 filteredPowerData = cell(num,1);
