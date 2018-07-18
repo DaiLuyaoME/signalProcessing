@@ -7,7 +7,8 @@ for i = 1 : num
     numSize(i) = numel(data{i});
 end
 xlabel('采样点');ylabel('电机功率');set(gca,'FontSize',14);
-axis tight;
+xlim([500,3000]);
+% axis tight;
 %%
 fs = 49;
 Ts = 1/fs;
@@ -23,14 +24,15 @@ for i = 1 : num
 %     filteredPowerData{i} = filter(b,a,data{i});
 %     filteredPowerDataZeroPhaseError{i} = filtfilt(b,a,data{i});
 end
+
 figure;
 for i = 1 : num
-    plot(filteredPowerData{i},'LineWidth',2);
+    plot(filteredPowerData{i}(1:end),'LineWidth',2);
     hold on;
 end
 xlabel('采样点');ylabel('滤波后电机功率');set(gca,'FontSize',14);
-axis tight;
-
+% axis tight;
+xlim([300,3200]);
 
 figure;
 for i = 1 : num
@@ -38,6 +40,17 @@ for i = 1 : num
     hold on;
 end
 xlabel('采样点');ylabel('零相位滤波后电机功率');set(gca,'FontSize',14);
-axis tight;
-
+% axis tight;
+xlim([300,3200]);
 % filteredPowerData = filter(dataFilter,powerData);
+%% 对信号进行滤波
+num = numel(data);
+figure;
+for i = 1:num
+	[pxx,f] = pwelch(data{i});
+	plot(f./pi,10*log(pxx),'LineWidth',2);
+	hold on;
+end
+xlabel('Normalized Frequency  (\times\pi rad/sample)');
+ylabel('Power/frequency (dB/rad/sample)');
+set(gca,'FontSize',14);
