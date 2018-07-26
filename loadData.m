@@ -1,3 +1,5 @@
+clear;
+%%
 dataSetName = 'dataSet2/';
 nameList = dir(['./data/',dataSetName,'*.csv']);
 pathName = [nameList(1).folder,'/'];

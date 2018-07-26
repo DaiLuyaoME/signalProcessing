@@ -99,18 +99,20 @@ firDevZeroPhase = diff(originalDataZeroPhase);
 secDevZeroPhase = diff(originalDataZeroPhase,2);
 num = numel(secDevZeroPhase);
 %% 一阶导数绘制
+close all;
 figure; 
 yyaxis left;
 plot(powerData,'DisplayName','原始数据');
 hold on ;
 plot(originalDataZeroPhase,'DisplayName','零相位误差滤波后数据','LineWidth',2,'Color','r'); ylabel('电机功率');
 yyaxis right;
-plot(firDevZeroPhase,'DisplayName','一阶导数','LineWidth',2);grid on;hold on;plot(zeros(size(firDevZeroPhase)),'DisplayName','0刻度线');
+plot(firDevZeroPhase,'DisplayName','一阶导数','LineWidth',2);grid on;hold on;plot(zeros(size(firDevZeroPhase)),'DisplayName','0刻度线','LineWidth',4,'Color','black');
 ylabel('一阶导数');
 xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 h = legend('show');
-h.Location = 'southeast';
+h.Location = 'northwest';
+xlim([500,numel(powerData)]);
 
 figure; 
 yyaxis left;
@@ -118,12 +120,13 @@ plot(powerData,'DisplayName','原始数据');
 hold on ;
 plot(originalData,'DisplayName','滤波后数据','LineWidth',2,'Color','r'); ylabel('电机功率');
 yyaxis right;
-plot(firDev,'DisplayName','一阶导数','LineWidth',2);grid on;hold on;plot(zeros(size(firDev)),'DisplayName','0刻度线');
+plot(firDev,'DisplayName','一阶导数','LineWidth',2);grid on;hold on;plot(zeros(size(firDev)),'DisplayName','0刻度线','LineWidth',4,'Color','black');
 ylabel('一阶导数');
 xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 h = legend('show');
-h.Location = 'southeast';
+h.Location = 'northwest';
+xlim([500,numel(powerData)]);
 
 %% 二阶导数绘制
 figure; 

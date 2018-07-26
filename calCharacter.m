@@ -6,14 +6,18 @@ function result = calCharacter(data,windowsize,startPoint,methodType)
 result = zeros(size(data));
 num = numel(result);
 switch methodType
-    case 'ma'
+    case 'MA'
         calFun = @(x)calMA(x);
     case 'mean'
         calFun = @(x)mean(x);
-    case 'msd'
+    case 'MSD'
         calFun = @(x)calMSD(x);
-    case 'absError'
+    case 'MAA'
         calFun = @(x)calAbsError(x);
+    case 'MAX'
+        calFun = @(x)max(x);
+    case 'MIN'
+        calFun = @(x)min(x);
 end
 
 for i = startPoint:num
@@ -23,7 +27,7 @@ end
 
 
     function ma = calMA(data)
-        ma = mean(abs(data));
+        ma = mean(data);
     end
 
     function msd = calMSD(data)
@@ -32,8 +36,8 @@ end
     end
 
     function absError = calAbsError(data)
-        temp = mean(data);
-        absError = sum(abs(data - temp));
+        absError = mean(abs(data));
+%         absError = sum(abs(data - temp));
     end
 
 end
