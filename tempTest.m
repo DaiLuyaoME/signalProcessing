@@ -2,21 +2,21 @@
 close all;
 clear;
 %% load data
-data = csvread('./data/dataSet1/Raw_3.csv',2,1);
-% data = csvread('./data/dataSet2/E8L029#04.csv',2,1);
+% singleData = csvread('./data/dataSet1/Raw_3.csv',2,1);
+singleData = csvread('./data/dataSet2/E8L027#09.csv',2,1);
 fs = 49;
 Ts = 1/fs;
-numCol = size(data,2);
+numCol = size(singleData,2);
 figure;
 for i = 1:numCol
     subplot(2,2,i);
-    plot(data(:,i));
+    plot(singleData(:,i));
 end
-powerData = data(:,2);
-% powerData = data(:,1);
+% powerData = singleData(:,2);
+powerData = singleData(:,1);
 figure;plot(powerData);
 %% design filter
-dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .005, 'PassbandRipple', 0.01);
+dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
 %%
 powerData = powerData(1:end);
 filteredPowerData = filter(dataFilter,powerData);
@@ -43,6 +43,9 @@ methodType = 'MSD';
 
 result = calCharacter(tempData,windowSize,startPoint,methodType);
 % figure;plot([powerData,result]);
+figure;
+plot(result,'DisplayName','MSD','LineWidth',2);
+xlim([500,numel(tempData)]);
 
 figure;
 yyaxis left;
@@ -75,7 +78,7 @@ switch tempFlag
 end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
-windowSize = 30;
+windowSize = 20;
 methodType = 'MSD';
 
 result = calCharacter(tempData,windowSize,startPoint,methodType);
@@ -182,6 +185,7 @@ xlim([500,numel(tempData)]);
 % 需要先执行loadData.m
 close all;
 tempFlag = 2;
+% data = data(71:75);
 num = numel(data);
 tempData = cell(size(data));
 dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
@@ -236,8 +240,8 @@ for i = 1:num
 end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
-windowSize = 100;
-methodType = 'MIN';
+windowSize = 20;
+methodType = 'MSD';
 
 result = cell(size(tempData));
 
