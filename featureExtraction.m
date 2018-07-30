@@ -89,54 +89,56 @@ xlim([deadtime,numel(result)]);
 xlabel('采样点');
 ylabel('MSD');
 set(gca,'Fontsize',14);
-%% 多数据文件MSD极大值和极小值间距分析
-close all;
-deadtime = 1700;
-tempFlag = 1;
-num = numel(data);
-tempData = cell(size(data));
-dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
-for i = 1:num
-    switch tempFlag
-        case 1
-            tempData{i} = filtfilt(dataFilter,data{i});
-            dataName = '零相位滤波后数据';
-        case 2
-            tempData{i} = filter(dataFilter,data{i});
-            dataName = '滤波后数据';
-    end
-end
-% tempData = diff(filteredPowerData);
-startPoint = 300;
-windowSize = 60;
-methodType = 'MSD';
-
-result = cell(size(tempData));
-
-for i = 1:num
-result{i} = calCharacter(tempData{i},windowSize,startPoint,methodType);
-end
-
-distanceLoc  = zeros(numel(result),1);
-distanceVal = zeros(numel(result),1);
-
-for i = 1:num
-    [loc,val] = findPeak(result{i},1);
-    val = val(loc>deadtime);
-    loc = loc(loc>deadtime);
-    loc1 = loc(1);
-    val1 = val(1);
-     [loc,val] = findNotch(result{i},1);
-    val = val(loc>loc1);
-    loc = loc(loc>loc1);
-    loc2 = loc(1);  
-    val2 = val(1);
-    distanceLoc(i) = loc2 - loc1;
-    distanceVal(i) = val1 - val2;
-end
-figure;
-plot(distanceLoc);
-figure;plot(distanceVal);
+% %
+% 多数据文件MSD极大值和极小值间距分析
+%% 这部分代码已经转移到Untitled2.m中
+% close all;
+% deadtime = 1700;
+% tempFlag = 1;
+% num = numel(data);
+% tempData = cell(size(data));
+% dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
+% for i = 1:num
+%     switch tempFlag
+%         case 1
+%             tempData{i} = filtfilt(dataFilter,data{i});
+%             dataName = '零相位滤波后数据';
+%         case 2
+%             tempData{i} = filter(dataFilter,data{i});
+%             dataName = '滤波后数据';
+%     end
+% end
+% % tempData = diff(filteredPowerData);
+% startPoint = 300;
+% windowSize = 60;
+% methodType = 'MSD';
+% 
+% result = cell(size(tempData));
+% 
+% for i = 1:num
+% result{i} = calCharacter(tempData{i},windowSize,startPoint,methodType);
+% end
+% 
+% distanceLoc  = zeros(numel(result),1);
+% distanceVal = zeros(numel(result),1);
+% 
+% for i = 1:num
+%     [loc,val] = findPeak(result{i},1);
+%     val = val(loc>deadtime);
+%     loc = loc(loc>deadtime);
+%     loc1 = loc(1);
+%     val1 = val(1);
+%      [loc,val] = findNotch(result{i},1);
+%     val = val(loc>loc1);
+%     loc = loc(loc>loc1);
+%     loc2 = loc(1);  
+%     val2 = val(1);
+%     distanceLoc(i) = loc2 - loc1;
+%     distanceVal(i) = val1 - val2;
+% end
+% figure;
+% plot(distanceLoc);
+% figure;plot(distanceVal);
 %% 多数据文件实时滤波和零相位滤波极值点距离对比
 % 先运行untitile2
 % 要先将实时滤波数据存在disLoc1和disVal1中，零相位滤波数据存在disLoc2和disVal2中
@@ -178,4 +180,3 @@ set(gca,'fontsize',14);
 xlabel('数据文件编号');
 ylabel('MSD峰峰值');
 axis('tight');
-

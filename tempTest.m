@@ -3,7 +3,7 @@ close all;
 clear;
 %% load data
 % singleData = csvread('./data/dataSet1/Raw_3.csv',2,1);
-singleData = csvread('./data/dataSet2/E8L027#09.csv',2,1);
+singleData = csvread('./data/dataSet2/E8L030#01.csv',2,1);
 fs = 49;
 Ts = 1/fs;
 numCol = size(singleData,2);
@@ -42,6 +42,8 @@ windowSize = 30;
 methodType = 'MSD';
 
 result = calCharacter(tempData,windowSize,startPoint,methodType);
+% result = calCharacterVariedWeight(tempData,windowSize,startPoint,methodType);
+
 % figure;plot([powerData,result]);
 figure;
 plot(result,'DisplayName','MSD','LineWidth',2);
@@ -156,14 +158,14 @@ switch tempFlag
         dataName = '零相位滤波后数据';
     case 2
         tempData = filteredPowerData;
-        dataName = '滤波后数据';
+        dataName = '实时滤波后数据';
 end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
 windowSize = floor(linspace(5,300,15));
 % windowSize = 30;
 num = numel(windowSize);
-methodType = 'MIN';
+methodType = 'MSD';
 result = zeros(numel(tempData),num);
 nameCell = cell(num,1);
 for i = 1:num
