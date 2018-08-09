@@ -26,7 +26,7 @@ set(gca,'fontsize',14);
 legend('原始信号','预处理后');
 axis tight;
 %% 预处理前后功率谱分析
-close all;
+% close all;
 figure;
 pwelch([p_ave - mean(p_ave), p_non - mean(p_non)]);
 tempAxe = gca;
