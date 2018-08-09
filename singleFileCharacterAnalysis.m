@@ -1,27 +1,34 @@
 %%
 close all;
 clear;
-%% load data
+%% 载入单个数据文件
+
+% 载入数据集1的数据文件
 % singleData = csvread('./data/dataSet1/Raw_3.csv',2,1);
+% powerData = singleData(:,2);
+% pos1 = singleData(:,3);
+% pos2 = singleData(:,4);
+
+% 载入数据集2的数据文件
 singleData = csvread('./data/dataSet2/E8L030#13.csv',2,1);
-fs = 49;
+powerData = singleData(:,1);
+pos1 = singleData(:,2);
+pos2 = singleData(:,3);
+
+fs = 39;
 Ts = 1/fs;
+
 numCol = size(singleData,2);
 figure;
 for i = 1:numCol
     subplot(2,2,i);
     plot(singleData(:,i));
 end
-% powerData = singleData(:,2);
-% pos1 = singleData(:,3);
-% pos2 = singleData(:,4);
-powerData = singleData(:,1);
-pos1 = singleData(:,2);
-pos2 = singleData(:,3);
+
 figure;plot(powerData);
-%% design filter
+%% 滤波器设计
 dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
-%%
+%% 对信号进行滤波
 powerData = powerData(1:end);
 filteredPowerData = filter(dataFilter,powerData);
 % filteredPowerData = filter(b6,1,powerData);
@@ -32,7 +39,8 @@ h = legend('原始数据','低通滤波','零相位误差低通滤波');set(gca,'FontSize',14);
 h.Location = 'best';
 xlabel('采样点');ylabel('电机功率');set(gca,'FontSize',14);axis tight;
 %% 计算电机功率特征
-close all;
+% close all;
+% tempFlag = 1, 计算零相位滤波后，电机功率特征； tempFlag = 2， 计算实时滤波后，电机功率特征；
 tempFlag = 2;
 switch tempFlag
     case 1
@@ -42,19 +50,22 @@ switch tempFlag
         tempData = filteredPowerData;
         dataName = '滤波后数据';
 end
-% tempData = diff(filteredPowerData);
+
+% 计算起始点位置
 startPoint = 300;
+% 计算用的窗口大小
 windowSize = 30;
+% 计算的特征，‘MSD’时技术算MSD，‘MA’时计算MA
 methodType = 'MSD';
-
+% 计算特征
 result = calCharacter(tempData,windowSize,startPoint,methodType);
-% result = calCharacterVariedWeight(tempData,windowSize,startPoint,methodType);
 
-% figure;plot([powerData,result]);
+% 单独绘制MSD
 figure;
 plot(result,'DisplayName','MSD','LineWidth',2);
 xlim([500,numel(tempData)]);
 
+% 绘制MSD，电机原始功率、滤波后功率
 figure;
 yyaxis left;
 plot(powerData,'DisplayName','原始数据');
@@ -70,7 +81,8 @@ axis tight;
 legend('show');
 xlim([500,numel(tempData)]);
 %% 计算电机功率信号一阶导数特征
-close all;
+% close all;
+% tempFlag = 1, 计算零相位滤波后，电机功率特征； tempFlag = 2， 计算实时滤波后，电机功率特征；
 tempFlag = 2;
 switch tempFlag
     case 1
@@ -86,7 +98,7 @@ switch tempFlag
 end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
-windowSize = 20;
+windowSize = 30;
 methodType = 'MSD';
 
 result = calCharacter(tempData,windowSize,startPoint,methodType);
@@ -113,7 +125,8 @@ h = legend('show');
 h.Location = 'northwest';
 xlim([500,numel(tempData)]);
 %% 计算电机功率信号二阶导数特征
-close all;
+% close all;
+% tempFlag = 1, 计算零相位滤波后，电机功率特征； tempFlag = 2， 计算实时滤波后，电机功率特征；
 tempFlag = 1;
 switch tempFlag
     case 1
@@ -155,8 +168,9 @@ axis tight;
 h = legend('show');
 h.Location = 'northwest';
 xlim([500,numel(tempData)]);
-%% 不同窗口大小电机功率特征
+%% 计算不同窗口大小下，同一数据文件电机功率特征变化情况
 close all;
+% tempFlag = 1, 计算零相位滤波后，电机功率特征； tempFlag = 2， 计算实时滤波后，电机功率特征；
 tempFlag = 2;
 switch tempFlag
     case 1
@@ -169,9 +183,8 @@ end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
 windowSize = floor(linspace(5,300,10));
-% windowSize = 30;
 num = numel(windowSize);
-methodType = 'MA';
+methodType = 'MSD';
 result = zeros(numel(tempData),num);
 nameCell = cell(num,1);
 for i = 1:num
@@ -189,83 +202,3 @@ xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 legend(nameCell);
 xlim([1700,numel(tempData)]);
-%% 多数据文件电机功率特征分析
-% 需要先执行loadData.m
-close all;
-tempFlag = 2;
-% data = data(71:75);
-num = numel(data);
-tempData = cell(size(data));
-dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
-for i = 1:num
-    switch tempFlag
-        case 1
-            tempData{i} = filtfilt(dataFilter,data{i});
-            dataName = '零相位滤波后数据';
-        case 2
-            tempData{i} = filter(dataFilter,data{i});
-            dataName = '滤波后数据';
-    end
-end
-% tempData = diff(filteredPowerData);
-startPoint = 300;
-windowSize = 30;
-methodType = 'MSD';
-
-result = cell(size(tempData));
-
-for i = 1:num
-result{i} = calCharacter(tempData{i},windowSize,startPoint,methodType);
-end
-
-figure;
-for i = 1:num
-    plot(result{i},'LineWidth',2);
-    hold on;
-end
-
-ylabel(methodType);
-xlabel('采样点');set(gca,'FontSize',14);
-axis tight;
-% legend('show');
-xlim([500,3000]);
-%% 多数据文件电机功率一阶导数特征分析
-% 需要先执行loadData.m
-close all;
-tempFlag = 2;
-num = numel(data);
-tempData = cell(size(data));
-dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
-for i = 1:num
-    switch tempFlag
-        case 1
-            tempData{i} = diff(filtfilt(dataFilter,data{i}));
-            dataName = '一阶导数（零相位滤波后）';
-        case 2
-            tempData{i} = diff(filter(dataFilter,data{i}));
-            dataName = '一阶导数';
-    end
-end
-% tempData = diff(filteredPowerData);
-startPoint = 300;
-windowSize = 20;
-methodType = 'MSD';
-
-result = cell(size(tempData));
-
-for i = 1:num
-result{i} = calCharacter(tempData{i},windowSize,startPoint,methodType);
-end
-
-figure;
-for i = 1:num
-    plot(result{i},'LineWidth',2);
-    hold on;
-end
-hold on;
-plot(zeros(1,3000),'DisplayName','0刻度线','LineWidth',2,'Color','black');
-ylabel(methodType);
-xlabel('采样点');set(gca,'FontSize',14);
-axis tight;
-% legend('show');
-xlim([500,3000]);
