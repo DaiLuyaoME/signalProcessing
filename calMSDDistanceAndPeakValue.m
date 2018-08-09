@@ -16,7 +16,7 @@ windowSize = 30;
 %% 设计滤波器
 dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
 %% 多数据文件MSD极大值和极小值距离分析
-close all;
+% close all;
 deadtime = 1700;
 tempFlag = 2; % 采用实时滤波
 num = numel(data);
@@ -62,11 +62,11 @@ for i = 1:num
 end
 % figure;
 % plot(distanceLoc);
-figure;plot(distanceVal);
+% figure;plot(distanceVal);
 disLoc1 = distanceLoc;
 disVal1 = distanceVal;
 %% 多数据文件MSD极大值和极小值间距分析
-close all;
+% close all;
 deadtime = 1700;
 tempFlag = 1; % 采用零相位滤波
 num = numel(data);
@@ -111,7 +111,7 @@ for i = 1:num
 end
 % figure;
 % plot(distanceLoc);
-figure;plot(distanceVal);
+% figure;plot(distanceVal);
 disLoc2 = distanceLoc;
 disVal2 = distanceVal;
 

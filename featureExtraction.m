@@ -93,9 +93,10 @@ set(gca,'Fontsize',14);
 % %
 % 多数据文件MSD极大值和极小值间距分析
 
+%%  计算数据集全部文件
+calMSDDistanceAndPeakValue;
 %% 多数据文件实时滤波和零相位滤波极值点距离对比
-% 先运行untitile2
-% 要先将实时滤波数据存在disLoc1和disVal1中，零相位滤波数据存在disLoc2和disVal2中
+% 该节代码需要先运行calMSDDistanceAndPeakValue.m脚本；
 figure;
 h = plot([disLoc1,disLoc2],'LineWidth',2);
 h(1).Marker = 'diamond';
@@ -114,8 +115,8 @@ set(gca,'fontsize',14);
 xlabel('数据文件编号');
 ylabel('极值点距离偏差  (单位：采样点个数)');
 axis('tight');
-%% 多数据文件实时滤波和零相位滤波极值点距离对比
-% 要先将实时滤波数据存在disLoc1和disVal1中，零相位滤波数据存在disLoc2和disVal2中
+%% 多数据文件实时滤波和零相位滤波极值点峰峰值
+% 该节代码需要先运行calMSDDistanceAndPeakValue.m脚本；
 figure;
 h = plot([disVal1,disVal2],'LineWidth',2);
 h(1).Marker = 'diamond';
@@ -132,5 +133,5 @@ h(2).Marker = 'pentagram';
 legend('实时滤波','零相位滤波');
 set(gca,'fontsize',14);
 xlabel('数据文件编号');
-ylabel('MSD峰峰值');
+ylabel('MSD峰峰值偏差');
 axis('tight');

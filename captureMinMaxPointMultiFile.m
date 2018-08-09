@@ -1,6 +1,8 @@
-%% 多数据文件极大值极小值点标注
-% 在图像上标注出极大值点极小值点，通过观察标注结果，确保正确地找到了所需要的极值点
+%% 抓取全部数据文件的极大值点和极小值点
 clc;
+%% 载入数据集中的全部数据文件
+loadData;
+%% 设置参数
 % minHeight和maxHeight要根据窗口大小调节
 minHeight = 1;
 maxHeight = 0.4;
@@ -9,7 +11,7 @@ dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .00
 %% 多数据文件MSD极大值和极小值间距分析
 close all;
 deadtime = 1700;
-tempFlag = 1;
+tempFlag = 2;
 dataIndex = 1:75;
 num = numel(dataIndex);
 tempData = cell(num,1);

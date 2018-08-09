@@ -1,3 +1,5 @@
+%% 载入数据集中全部数据文件
+loadData;
 %% 研究不同滤波器对极值点距离及峰峰值的影响
 clear disLoc1;
 clear disLoc2;
