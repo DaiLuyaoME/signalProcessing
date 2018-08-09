@@ -1,11 +1,14 @@
+%% 分析不同截止频率滤波器对极值点距离及峰峰值的影响
+
 %% 载入数据集中全部数据文件
 loadData;
-%% 研究不同滤波器对极值点距离及峰峰值的影响
+%% 清除相关变量
 clear disLoc1;
 clear disLoc2;
 clear valLoc1;
 clear valLoc2;
 clc;
+%% 设置相关参数
 % minHeight和maxHeight要根据窗口大小调节
 minHeight = 1;
 maxHeight = 0.2;

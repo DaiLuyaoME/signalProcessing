@@ -1,4 +1,8 @@
-%% 研究不同窗口大小对极值点距离、峰峰值和延时的影响
+%% 分析不同窗口大小对极值点距离、峰峰值和延时的影响
+
+%% 载入数据集中全部数据文件
+loadData;
+%% 清除相关变量；
 clear disLoc1;
 clear disLoc2;
 clear valLoc1;
@@ -6,6 +10,7 @@ clear valLoc2;
 clear minLocRealTime;
 clear minLocZeroPhase;
 clc;
+%% 设置相关参数
 % minHeight和maxHeight要根据窗口大小调节
 clear windowSize;
 windowSize{1} = 30;
