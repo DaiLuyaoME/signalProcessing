@@ -46,8 +46,7 @@ set(gca,'fontsize',14);
 xlabel('数据文件编号');
 ylabel('MSD峰峰值偏差');
 axis('tight');
-%% 分析不同截止频率滤波器对极值点距离及峰峰值的影响
-analyseEffectOfFilterOnMSD;
+
 %% 分析不同截止频率滤波器对极值点距离及峰峰值的影响
 analyseEffectOfFilterOnMSD;
 

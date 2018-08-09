@@ -7,10 +7,14 @@ clear;
 % 读取数据集1的一个数据文件
 % data = csvread('./data/dataSet1/Raw_5.csv',2,1);
 % powerData = data(:,2); %电机功率信号
+% pos1 = data(:,3); % 往复位置
+% pos2 = data(:,4); % 摆动角度
 
 % 读取数据集2的一个数据文件
 data = csvread('./data/dataSet2/E8L030#13.csv',2,1);
 powerData = data(:,1);  % 电机功率信号
+pos1 = data(:,2); % 往复位置
+pos2 = data(:,3); % 摆动角度
 
 %% 定义采样频率与采样周期
 fs = 39;
@@ -54,7 +58,6 @@ switch type
         ylabel('Power/frequency (%)');
         
     case 2
-        
         
         figure;pwelch(powerDataMeaned,1000,500,1000,fs);
         [pxx,f] = pwelch(powerDataMeaned,1000,500,1000,fs);
