@@ -4,9 +4,9 @@
 % fvtool(b1,a1,b2,a2);
 close all;
 %%
-% wo = 0.01514;  bw = wo/3000;notchDepth = -60;
-% [b,a] = iirnotch(wo,bw,notchDepth);
-% fvtool(b,a);
+wo = 0.01514;  bw = wo/3000;notchDepth = -60;
+[b,a] = iirnotch(wo,bw,notchDepth);
+fvtool(b,a);
 % figure;bodeplot(tf(b,a));
 %%
 wo = 0.47;  bw = wo/3000;notchDepth = -60;

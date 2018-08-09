@@ -20,9 +20,13 @@ switch mode
         
     case 2
         data = {};
+        pos1 = {};
+        pos2 = {};
         for i = 1 : numel(nameList)
             tempData = csvread([pathName,nameList(i).name],rowOffset,colOffset);
             data = [data,tempData(:,powerDataIndex)];
+            pos1 = [pos1,tempData(:,powerDataIndex + 1)];
+            pos2 = [pos2,tempData(:,powerDataIndex + 2)];
         end
 end
 %%

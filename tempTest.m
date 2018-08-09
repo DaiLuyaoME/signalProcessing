@@ -3,7 +3,7 @@ close all;
 clear;
 %% load data
 % singleData = csvread('./data/dataSet1/Raw_3.csv',2,1);
-singleData = csvread('./data/dataSet2/E8L030#01.csv',2,1);
+singleData = csvread('./data/dataSet2/E8L030#13.csv',2,1);
 fs = 49;
 Ts = 1/fs;
 numCol = size(singleData,2);
@@ -13,14 +13,20 @@ for i = 1:numCol
     plot(singleData(:,i));
 end
 % powerData = singleData(:,2);
+% pos1 = singleData(:,3);
+% pos2 = singleData(:,4);
 powerData = singleData(:,1);
+pos1 = singleData(:,2);
+pos2 = singleData(:,3);
 figure;plot(powerData);
 %% design filter
 dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
 %%
 powerData = powerData(1:end);
 filteredPowerData = filter(dataFilter,powerData);
+% filteredPowerData = filter(b6,1,powerData);
 filteredPowerDataZeroPhaseError = filtfilt(dataFilter,powerData);
+% filteredPowerDataZeroPhaseError = filtfilt(b6,1,powerData);
 figure;plot([powerData,filteredPowerData,filteredPowerDataZeroPhaseError],'LineWidth',2);
 h = legend('原始数据','低通滤波','零相位误差低通滤波');set(gca,'FontSize',14);
 h.Location = 'best';
@@ -162,10 +168,10 @@ switch tempFlag
 end
 % tempData = diff(filteredPowerData);
 startPoint = 300;
-windowSize = floor(linspace(5,300,15));
+windowSize = floor(linspace(5,300,10));
 % windowSize = 30;
 num = numel(windowSize);
-methodType = 'MSD';
+methodType = 'MA';
 result = zeros(numel(tempData),num);
 nameCell = cell(num,1);
 for i = 1:num
@@ -182,7 +188,7 @@ ylabel([dataName,methodType]);
 xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 legend(nameCell);
-xlim([500,numel(tempData)]);
+xlim([1700,numel(tempData)]);
 %% 多数据文件电机功率特征分析
 % 需要先执行loadData.m
 close all;

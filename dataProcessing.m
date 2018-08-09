@@ -3,7 +3,7 @@ close all;
 clear;
 %% load data
 % data = csvread('./data/dataSet1/Raw_5.csv',2,1);
-data = csvread('./data/dataSet2/E8L029#04.csv',2,1);
+data = csvread('./data/dataSet2/E8L030#13.csv',2,1);
 %%
 fs = 49;
 Ts = 1/fs;
@@ -12,6 +12,11 @@ numCol = size(data,2);
 figure;
 for i = 1:numCol
     subplot(2,2,i);
+    plot(data(:,i));
+end
+for i = 1:numCol
+%     subplot(2,2,i);
+figure;
     plot(data(:,i));
 end
 %%
@@ -71,12 +76,16 @@ end
 %%
 powerData = powerData(1:end);
 dataFilter = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
-% dataFilter = designfilt('lowpassfir', 'FilterOrder', 17, 'PassbandFrequency', .05, 'StopbandFrequency', 0.06);
+% dataFilter = designfilt('lowpassiir', 'FilterOrder', 9, 'PassbandFrequency', .2, 'PassbandRipple', 0.01, 'SampleRate', 39);
+
+
 filteredPowerData = filter(dataFilter,powerData);
+% filteredPowerData = filter(b6,1,powerData);
 figure;plot([powerData,filteredPowerData]);
 %%
 filteredPowerDataZeroPhaseError = filtfilt(dataFilter,powerData);
-figure;plot([powerData,filteredPowerData,filteredPowerDataZeroPhaseError],'LineWidth',4);
+% filteredPowerDataZeroPhaseError = filtfilt(b6,1,powerData);
+figure;plot([powerData,filteredPowerData,filteredPowerDataZeroPhaseError],'LineWidth',2);
 h = legend('原始数据','低通滤波','零相位误差低通滤波');set(gca,'FontSize',14);
 h.Location = 'best';
 xlabel('采样点');ylabel('电机功率');set(gca,'FontSize',14);axis tight;
@@ -86,6 +95,8 @@ figure; pwelch(filteredPowerDataZeroPhaseError - mean(filteredPowerDataZeroPhase
 figure; pwelch(filteredPowerData - mean(filteredPowerData));title('滤波后功率谱估计Welch方法');
 % figure; periodogram(filteredPowerDataZeroPhaseError - mean(filteredPowerDataZeroPhaseError));title('滤波后功率谱估计周期图方法');
 % figure;[pxx,f] = periodogram(filteredPowerDataZeroPhaseError,[],[],fs);title('滤波后功率谱估计周期图方法');
+        [pxx,f] = pwelch(filteredPowerData-mean(filteredPowerData));
+        figure;semilogx(f,cumsum(pxx) ./ sum(pxx));title('累积功率谱Welch');
 %%
 figure;plot(diff(filteredPowerDataZeroPhaseError));
 figure;plot(diff(diff(filteredPowerDataZeroPhaseError)));
@@ -141,6 +152,7 @@ xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 h = legend('show');
 h.Location = 'southeast';
+xlim([1000,numel(powerData)]);
 figure; 
 yyaxis left;
 plot(powerData,'DisplayName','原始数据');
@@ -153,6 +165,7 @@ xlabel('采样点');set(gca,'FontSize',14);
 axis tight;
 h = legend('show');
 h.Location = 'southeast';
+xlim([1000,numel(powerData)]);
 
 %% 滤波后频谱分析，带采样频率
 

@@ -34,4 +34,8 @@ b2 = ones(1,30)/30;
 b3 = ones(1,60)/60;
 b4 = ones(1,120)/120;
 b5 = ones(1,300)/300;
+b6 = ones(1,600)/600;
 figure;fvtool(b1,1,b2,1,b3,1,b4,1,b5,1);
+%%
+dataFilter1 = designfilt('lowpassiir', 'FilterOrder', 4, 'PassbandFrequency', .003, 'PassbandRipple', 0.01);
+fvtool(dataFilter1);
