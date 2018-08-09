@@ -169,7 +169,7 @@ h = legend('show');
 h.Location = 'northwest';
 xlim([500,numel(tempData)]);
 %% 计算不同窗口大小下，同一数据文件电机功率特征变化情况
-close all;
+% close all;
 % tempFlag = 1, 计算零相位滤波后，电机功率特征； tempFlag = 2， 计算实时滤波后，电机功率特征；
 tempFlag = 2;
 switch tempFlag
